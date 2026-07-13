@@ -193,6 +193,36 @@ function Hero() {
             </a>
           </div>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-6 w-full overflow-hidden border-y border-white/10 bg-black/30 py-3 backdrop-blur-sm md:mt-8"
+        >
+          <div className="flex">
+            <div className="animate-marquee flex shrink-0 items-center gap-6 pr-6">
+              {[
+                "Свадьбы",
+                "Корпоративы",
+                "Дни рождения",
+                "Шоу",
+                "Утренники",
+                "Мастер-классы",
+                "Бизнес-саммиты",
+                "Городские события",
+              ].map((w, i) => (
+                <span
+                  key={i}
+                  className="flex items-center gap-6 font-display text-sm font-semibold uppercase tracking-widest text-white/80"
+                >
+                  {w}
+                  <span className="text-primary">✦</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
