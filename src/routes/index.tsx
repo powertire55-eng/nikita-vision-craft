@@ -7,14 +7,19 @@ import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/zimin-hero.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
-import santaImg from "@/assets/zimin-santa.jpg";
-import santaKissImg from "@/assets/zimin-santa-kiss.jpg";
-import micStageImg from "@/assets/zimin-mic-stage.jpg";
-import costumeImg from "@/assets/zimin-costume.jpg";
+import santaAsset from "@/assets/zimin-santa.jpg.asset.json";
+import santaKissAsset from "@/assets/zimin-santa-kiss.jpg.asset.json";
+import micStageAsset from "@/assets/zimin-mic-stage.jpg.asset.json";
+import costumeAsset from "@/assets/zimin-costume.jpg.asset.json";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
 import millionVideo from "@/assets/zimin-million.mp4.asset.json";
 import millionPoster from "@/assets/zimin-million-poster.jpg";
+
+const santaImg = santaAsset.url;
+const santaKissImg = santaKissAsset.url;
+const micStageImg = micStageAsset.url;
+const costumeImg = costumeAsset.url;
 
 export const Route = createFileRoute("/")({
   component: Index,
