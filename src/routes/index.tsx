@@ -252,9 +252,9 @@ function MillionShowcase() {
       </Reveal>
 
       <Reveal delay={0.05}>
-        <figure className="group relative overflow-hidden rounded-2xl bg-black">
+        <figure className="group relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl bg-black">
           <video
-            className="aspect-video size-full object-cover"
+            className="aspect-[9/16] size-full object-contain"
             src={millionVideo.url}
             poster={millionPoster}
             autoPlay
