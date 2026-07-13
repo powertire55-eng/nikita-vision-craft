@@ -11,6 +11,8 @@ import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import redCurtainImg from "@/assets/zimin-red-curtain.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
 import smileImg from "@/assets/zimin-smile.jpg";
+import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
+import aboutPoster from "@/assets/zimin-about-poster.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
