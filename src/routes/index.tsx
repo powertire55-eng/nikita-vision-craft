@@ -56,7 +56,7 @@ function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <a href="#top" className="font-display text-2xl font-700 tracking-tight">
+        <a href="#top" className="font-display text-2xl font-bold tracking-tight">
           ЗИМИН<span className="text-primary">.</span>
         </a>
 
@@ -74,7 +74,7 @@ function Header() {
 
         <a
           href="#contact"
-          className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-600 text-primary-foreground transition-transform hover:scale-[1.03] md:inline-flex"
+          className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] md:inline-flex"
         >
           Забронировать
         </a>
@@ -104,7 +104,7 @@ function Header() {
             <a
               href="#contact"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-full bg-primary px-5 py-3 text-center text-sm font-600 text-primary-foreground"
+              className="mt-2 rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground"
             >
               Забронировать
             </a>
@@ -134,7 +134,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-5 flex items-center gap-3 text-xs font-600 uppercase tracking-[0.25em] text-primary"
+          className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary"
         >
           <span className="inline-block h-px w-10 bg-primary" />
           Ведущий · Шоумен · Артист
@@ -157,7 +157,7 @@ function Hero() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4"
         >
-          <div className="flex items-center gap-6 text-sm font-500 uppercase tracking-widest text-muted-foreground">
+          <div className="flex items-center gap-6 text-sm font-medium uppercase tracking-widest text-muted-foreground">
             <span>31 год</span>
             <span className="h-4 w-px bg-border" />
             <span>182 см</span>
@@ -165,13 +165,13 @@ function Hero() {
           <div className="flex gap-3">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-600 text-primary-foreground transition-transform hover:scale-[1.03]"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
             >
               Забронировать дату <ArrowUpRight className="size-4" />
             </a>
             <a
               href="#works"
-              className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-600 transition-colors hover:bg-secondary"
+              className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-secondary"
             >
               Работы
             </a>
@@ -200,7 +200,7 @@ function Marquee() {
           {items.map((w, i) => (
             <span
               key={i}
-              className="flex items-center gap-8 font-display text-2xl font-600 uppercase tracking-wide text-muted-foreground md:text-3xl"
+              className="flex items-center gap-8 font-display text-2xl font-semibold uppercase tracking-wide text-muted-foreground md:text-3xl"
             >
               {w}
               <span className="text-primary">✦</span>
@@ -234,8 +234,8 @@ function Formats() {
           <Reveal key={f.n} delay={i * 0.05}>
             <div className="group flex h-full items-center justify-between gap-4 bg-background p-8 transition-colors hover:bg-secondary/60">
               <div>
-                <span className="font-display text-sm font-500 text-primary">{f.n}</span>
-                <p className="mt-2 font-display text-2xl font-600 uppercase md:text-3xl">{f.t}</p>
+                <span className="font-display text-sm font-medium text-primary">{f.n}</span>
+                <p className="mt-2 font-display text-2xl font-semibold uppercase md:text-3xl">{f.t}</p>
               </div>
               <ArrowUpRight className="size-6 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
             </div>
@@ -315,7 +315,7 @@ function About() {
         </div>
         <div className="flex flex-col justify-center px-5 py-16 md:px-14 md:py-20">
           <Reveal>
-            <p className="mb-5 text-xs font-600 uppercase tracking-[0.25em] text-primary">
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
               О себе
             </p>
             <h2 className="display-xl text-[clamp(2.2rem,5vw,4rem)]">
@@ -340,7 +340,7 @@ function About() {
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <div className="font-display text-4xl font-700 md:text-5xl">{value}</div>
+      <div className="font-display text-4xl font-bold md:text-5xl">{value}</div>
       <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );
@@ -350,7 +350,7 @@ function Contact() {
   return (
     <section id="contact" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-36">
       <Reveal>
-        <p className="mb-6 text-xs font-600 uppercase tracking-[0.25em] text-primary">Контакт</p>
+        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.25em] text-primary">Контакт</p>
         <h2 className="display-xl text-[clamp(2.8rem,10vw,8rem)]">
           Заберём вашу
           <br />
@@ -361,13 +361,13 @@ function Contact() {
         <div className="mt-12 flex flex-wrap gap-4">
           <a
             href="https://t.me/"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-600 text-primary-foreground transition-transform hover:scale-[1.03]"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
           >
             Написать в Telegram <ArrowUpRight className="size-5" />
           </a>
           <a
             href="https://instagram.com/"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-4 text-base font-600 transition-colors hover:bg-secondary"
+            className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-4 text-base font-semibold transition-colors hover:bg-secondary"
           >
             Instagram
           </a>
@@ -381,7 +381,7 @@ function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted-foreground md:flex-row md:px-8">
-        <span className="font-display text-lg font-700 text-foreground">
+        <span className="font-display text-lg font-bold text-foreground">
           ЗИМИН<span className="text-primary">.</span>
         </span>
         <span>© {new Date().getFullYear()} Никита Зимин · Ведущий мероприятий</span>
