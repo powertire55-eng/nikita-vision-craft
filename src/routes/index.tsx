@@ -239,7 +239,7 @@ function Formats() {
         </Reveal>
 
         {/* Formats grid */}
-        <div className="grid content-start gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:col-span-7">
+        <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:col-span-7 lg:h-full lg:auto-rows-fr">
           {FORMATS.map((f, i) => (
             <Reveal key={f.n} delay={i * 0.05}>
               <div className="group flex h-full items-center justify-between gap-4 bg-background p-7 transition-colors hover:bg-secondary/60 md:p-8">
