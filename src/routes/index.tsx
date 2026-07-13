@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, Play, Volume2, VolumeX, X } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/zimin-hero.jpg";
@@ -13,6 +13,8 @@ import neonImg from "@/assets/zimin-neon.jpg";
 import smileImg from "@/assets/zimin-smile.jpg";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
+import millionVideo from "@/assets/zimin-million.mp4.asset.json";
+import millionPoster from "@/assets/zimin-million-poster.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
