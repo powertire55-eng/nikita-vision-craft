@@ -1,29 +1,39 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Menu, Play, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowUpRight, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/zimin-hero.jpg";
-import fashionImg from "@/assets/zimin-fashion.jpg";
-import fullImg from "@/assets/zimin-full.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
-import redCurtainImg from "@/assets/zimin-red-curtain.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
-import smileImg from "@/assets/zimin-smile.jpg";
+import santaAsset from "@/assets/zimin-santa.jpg.asset.json";
+import santaKissAsset from "@/assets/zimin-santa-kiss.jpg.asset.json";
+import micStageAsset from "@/assets/zimin-mic-stage.jpg.asset.json";
+import costumeAsset from "@/assets/zimin-costume.jpg.asset.json";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
 import millionVideo from "@/assets/zimin-million.mp4.asset.json";
 import millionPoster from "@/assets/zimin-million-poster.jpg";
 
+const santaImg = santaAsset.url;
+const santaKissImg = santaKissAsset.url;
+const micStageImg = micStageAsset.url;
+const costumeImg = costumeAsset.url;
+
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const PHONE_DISPLAY = "+7 (965) 101-71-08";
+const PHONE_HREF = "+79651017108";
+const TG_HANDLE = "@ziminikita";
+const TG_HREF = "https://t.me/ziminikita";
+const WA_HREF = "https://wa.me/79651017108";
+
 const NAV = [
-  { label: "О себе", href: "#about" },
-  { label: "Работы", href: "#works" },
   { label: "Форматы", href: "#formats" },
+  { label: "О себе", href: "#about" },
   { label: "Контакт", href: "#contact" },
 ];
 
@@ -32,10 +42,13 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <Hero />
+      <MillionShowcase />
       <Marquee />
       <Formats />
-      <Works />
+      <Range />
+      <Shows />
       <About />
+      <Artists />
       <Contact />
       <Footer />
     </div>
@@ -122,7 +135,6 @@ function Header() {
 function Hero() {
   return (
     <section id="top" className="relative min-h-svh overflow-hidden">
-      {/* Background image */}
       <div className="absolute inset-0">
         <img
           src={heroImg}
@@ -174,14 +186,69 @@ function Hero() {
               Забронировать дату <ArrowUpRight className="size-4" />
             </a>
             <a
-              href="#works"
+              href="#million"
               className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-secondary"
             >
-              Работы
+              Смотреть шоу
             </a>
           </div>
         </motion.div>
       </div>
+    </section>
+  );
+}
+
+function MillionShowcase() {
+  const [muted, setMuted] = useState(true);
+
+  return (
+    <section id="million" className="mx-auto max-w-7xl px-5 pt-20 md:px-8 md:pt-28">
+      <Reveal>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="inline-block h-px w-10 bg-primary" />
+              Вирусный момент
+            </p>
+            <h2 className="display-xl text-[clamp(2.5rem,8vw,6rem)]">
+              1 000 000+ <span className="text-primary">просмотров</span>
+            </h2>
+          </div>
+          <p className="max-w-sm pb-2 text-base text-muted-foreground">
+            Один выход, который разлетелся по сети. Так выглядит энергия, которую я приношу на вашу
+            сцену.
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.05}>
+        <figure className="group relative overflow-hidden rounded-2xl bg-black">
+          <video
+            className="aspect-video size-full object-cover"
+            src={millionVideo.url}
+            poster={millionPoster}
+            autoPlay
+            loop
+            muted={muted}
+            playsInline
+            preload="metadata"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+
+          <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground">
+            <Play className="size-3.5 fill-current" />
+            1 000 000+ просмотров
+          </div>
+
+          <button
+            onClick={() => setMuted((m) => !m)}
+            aria-label={muted ? "Включить звук" : "Выключить звук"}
+            className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+          >
+            {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+          </button>
+        </figure>
+      </Reveal>
     </section>
   );
 }
@@ -191,14 +258,16 @@ const MARQUEE = [
   "Корпоративы",
   "Дни рождения",
   "Шоу",
-  "Частные вечеринки",
+  "Утренники",
+  "Мастер-классы",
+  "Бизнес-саммиты",
   "Городские события",
 ];
 
 function Marquee() {
   const items = [...MARQUEE, ...MARQUEE];
   return (
-    <div className="border-y border-border bg-secondary/40 py-5">
+    <div className="mt-20 border-y border-border bg-secondary/40 py-5 md:mt-28">
       <div className="flex overflow-hidden">
         <div className="animate-marquee flex shrink-0 items-center gap-8 pr-8">
           {items.map((w, i) => (
@@ -219,26 +288,43 @@ function Marquee() {
 const FORMATS = [
   { n: "01", t: "Свадьбы" },
   { n: "02", t: "Корпоративы" },
-  { n: "03", t: "Дни рождения" },
+  { n: "03", t: "Детские утренники" },
   { n: "04", t: "Частные вечеринки" },
-  { n: "05", t: "Городские события" },
-  { n: "06", t: "Шоу и премии" },
+  { n: "05", t: "Бизнес-саммиты" },
+  { n: "06", t: "Мастер-классы" },
 ];
 
 function Formats() {
   return (
     <section id="formats" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
       <Reveal>
-        <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы</h2>
+        <div className="mb-12 flex items-end justify-between gap-4">
+          <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы</h2>
+          <p className="hidden max-w-xs pb-2 text-sm text-muted-foreground md:block">
+            Любое событие — под ключ. Сценарий, музыка и настроение собираются под вашу задачу.
+          </p>
+        </div>
       </Reveal>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-12 lg:gap-8">
-        {/* Accent video */}
+      <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-5">
-          <FeaturedVideo />
+          <figure className="group relative h-full min-h-[26rem] overflow-hidden rounded-lg bg-secondary lg:min-h-[38rem]">
+            <img
+              src={micStageImg}
+              alt="Никита Зимин на сцене с микрофоном"
+              loading="lazy"
+              className="size-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <figcaption className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+              <p className="font-display text-2xl font-semibold uppercase leading-tight text-white md:text-3xl">
+                Драйв <span className="text-primary">на сцене</span>
+              </p>
+              <p className="mt-1 text-sm text-white/70">От камерных вечеров до больших шоу</p>
+            </figcaption>
+          </figure>
         </Reveal>
 
-        {/* Formats grid */}
         <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:col-span-7 lg:h-full lg:auto-rows-fr">
           {FORMATS.map((f, i) => (
             <Reveal key={f.n} delay={i * 0.05}>
@@ -259,104 +345,124 @@ function Formats() {
   );
 }
 
-function FeaturedVideo() {
-  const [muted, setMuted] = useState(true);
+const RANGE = [
+  { a: "Детские утренники", b: "Поминки" },
+  { a: "Камерно и уютно", b: "Громко и драйвово" },
+  { a: "Интеллектуальные игры", b: "Спортивные активности" },
+  { a: "Бизнес-саммиты", b: "Мастер-классы" },
+];
 
+function Range() {
   return (
-    <figure className="group relative h-full min-h-[30rem] overflow-hidden rounded-lg bg-black lg:min-h-[42rem]">
-      <video
-        className="size-full object-cover"
-        src={millionVideo.url}
-        poster={millionPoster}
-        autoPlay
-        loop
-        muted={muted}
-        playsInline
-        preload="metadata"
-      />
+    <section className="border-y border-border bg-secondary/30">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-24 md:grid-cols-2 md:gap-14 md:px-8 md:py-32">
+        <Reveal>
+          <div>
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              Диапазон
+            </p>
+            <h2 className="display-xl text-[clamp(2.2rem,5.5vw,4.5rem)]">
+              Работаю в любой <span className="text-primary">тональности</span>
+            </h2>
+            <p className="mt-6 max-w-md text-lg text-muted-foreground">
+              Опыт в разноплановых событиях — подстроюсь под настроение, аудиторию и задачу. Соберу
+              интеллектуальную или спортивную программу именно под ваш формат.
+            </p>
 
-      {/* gradient for legibility */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+            <div className="mt-10 space-y-4">
+              {RANGE.map((r) => (
+                <div
+                  key={r.a}
+                  className="flex items-center gap-4 font-display text-xl font-semibold uppercase md:text-2xl"
+                >
+                  <span>{r.a}</span>
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="text-primary">{r.b}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
 
-      {/* top badge */}
-      <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground">
-        <Play className="size-3.5 fill-current" />
-        1 000 000+ просмотров
-      </div>
-
-      {/* sound toggle */}
-      <button
-        onClick={() => setMuted((m) => !m)}
-        aria-label={muted ? "Включить звук" : "Выключить звук"}
-        className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
-      >
-        {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
-      </button>
-
-      {/* caption */}
-      <figcaption className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-        <p className="font-display text-2xl font-semibold uppercase leading-tight text-white md:text-3xl">
-          Вирусное <span className="text-primary">шоу</span>
-        </p>
-        <p className="mt-1 text-sm text-white/70">Момент, который собрал миллион просмотров</p>
-      </figcaption>
-    </figure>
-  );
-}
-
-function Works() {
-  return (
-    <section id="works" className="mx-auto max-w-7xl px-5 pb-24 md:px-8 md:pb-32">
-      <Reveal>
-        <div className="mb-12 flex items-end justify-between gap-4">
-          <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Работы</h2>
-          <p className="hidden max-w-xs pb-2 text-sm text-muted-foreground md:block">
-            Сцена любого масштаба — от камерных вечеров до больших шоу.
-          </p>
-        </div>
-      </Reveal>
-
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-        <GalleryItem src={stageGreenImg} alt="Никита Зимин на сцене" className="row-span-2" tall />
-        <GalleryItem src={neonImg} alt="Никита Зимин ведёт вечер" />
-        <GalleryItem src={fashionImg} alt="Никита Зимин, фэшн-съёмка" className="row-span-2" tall />
-        <GalleryItem src={redCurtainImg} alt="Никита Зимин с микрофоном" />
-        <GalleryItem src={fullImg} alt="Никита Зимин в полный рост" />
-        <GalleryItem src={smileImg} alt="Портрет Никиты Зимина" />
+        <Reveal delay={0.1}>
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            <img
+              src={santaImg}
+              alt="Никита Зимин на новогоднем празднике"
+              loading="lazy"
+              className="col-span-1 row-span-2 h-full min-h-[22rem] w-full rounded-lg object-cover"
+            />
+            <img
+              src={costumeImg}
+              alt="Никита Зимин в костюмированном шоу"
+              loading="lazy"
+              className="aspect-square w-full rounded-lg object-cover"
+            />
+            <img
+              src={santaKissImg}
+              alt="Никита Зимин на тематической вечеринке"
+              loading="lazy"
+              className="aspect-square w-full rounded-lg object-cover"
+            />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function GalleryItem({
-  src,
-  alt,
-  className = "",
-  tall = false,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  tall?: boolean;
-}) {
+const SHOWS = [
+  "Угадай мелодию",
+  "Форт Боярд",
+  "ЧБД",
+  "Что? Где? Когда?",
+  "Своя игра",
+  "100 к 1",
+  "Импровизация",
+];
+
+function Shows() {
   return (
-    <motion.figure
-      initial={{ opacity: 0, scale: 0.98 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative overflow-hidden rounded-lg bg-secondary ${className}`}
-    >
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className={`w-full object-cover transition-transform duration-700 group-hover:scale-105 ${
-          tall ? "h-full min-h-[24rem]" : "aspect-[3/4]"
-        }`}
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-    </motion.figure>
+    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
+        <Reveal>
+          <figure className="group relative overflow-hidden rounded-2xl bg-secondary">
+            <img
+              src={stageGreenImg}
+              alt="Никита Зимин ведёт шоу"
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:aspect-square"
+            />
+          </figure>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div>
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              Форматы шоу
+            </p>
+            <h2 className="display-xl text-[clamp(2.2rem,5.5vw,4.5rem)]">
+              Ваше любимое шоу — <span className="text-primary">на вашем событии</span>
+            </h2>
+            <p className="mt-6 max-w-md text-lg text-muted-foreground">
+              Изящно перенесу и адаптирую механику любимых телепроектов под ваш зал и вашу компанию —
+              от лёгких музыкальных викторин до больших командных баталий.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {SHOWS.map((s) => (
+                <span
+                  key={s}
+                  className="rounded-full border border-border bg-background px-5 py-2.5 font-display text-sm font-semibold uppercase tracking-wide text-foreground"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -384,7 +490,7 @@ function About() {
             </h2>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
               Артист и ведущий. Собираю сценарий, музыку и настроение под вашу задачу — от первого
-              слова до финального номера.
+              слова до финального номера. Держу зал и чувствую темп события.
             </p>
             <div className="mt-10 flex gap-10">
               <Stat value="31" label="год" />
@@ -407,34 +513,221 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function Contact() {
+const ARTISTS = [
+  "Кавер-группы",
+  "Фокусники",
+  "Комики",
+  "Селебрити",
+  "Артисты малого роста",
+  "Животные",
+  "Пиротехники",
+  "Спортсмены",
+  "Фристайлеры",
+  "Диджеи",
+  "Деды Морозы",
+];
+
+function Artists() {
   return (
-    <section id="contact" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-36">
+    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
       <Reveal>
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.25em] text-primary">Контакт</p>
-        <h2 className="display-xl text-[clamp(2.8rem,10vw,8rem)]">
-          Заберём вашу
-          <br />
-          <span className="text-primary">дату?</span>
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+          Команда под ключ
+        </p>
+        <h2 className="display-xl max-w-4xl text-[clamp(2.2rem,6vw,5rem)]">
+          База артистов, <span className="text-primary">с которыми работаю</span>
         </h2>
       </Reveal>
+
+      <Reveal delay={0.05}>
+        <div className="mt-10 flex flex-wrap gap-3">
+          {ARTISTS.map((a) => (
+            <span
+              key={a}
+              className="rounded-full border border-border bg-secondary/40 px-5 py-2.5 font-display text-sm font-semibold uppercase tracking-wide"
+            >
+              {a}
+            </span>
+          ))}
+        </div>
+      </Reveal>
+
       <Reveal delay={0.1}>
-        <div className="mt-12 flex flex-wrap gap-4">
-          <a
-            href="https://t.me/"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
-          >
-            Написать в Telegram <ArrowUpRight className="size-5" />
-          </a>
-          <a
-            href="https://instagram.com/"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-4 text-base font-semibold transition-colors hover:bg-secondary"
-          >
-            Instagram
-          </a>
+        <div className="mt-10 grid gap-4 rounded-2xl border border-border bg-secondary/30 p-7 md:grid-cols-[auto_1fr] md:items-center md:gap-8 md:p-10">
+          <img
+            src={neonImg}
+            alt="Никита Зимин на вечеринке"
+            loading="lazy"
+            className="h-40 w-full rounded-xl object-cover md:h-32 md:w-48"
+          />
+          <p className="text-lg text-muted-foreground md:text-xl">
+            Соберу нужный состав под концепцию — и добавлю фирменную фишку: могу{" "}
+            <span className="text-foreground">спародировать вашего начальника или друга</span>, чтобы
+            вечер запомнили надолго.
+          </p>
         </div>
       </Reveal>
     </section>
+  );
+}
+
+const EVENT_TYPES = ["Свадьба", "Корпоратив", "Детский праздник", "Юбилей", "Шоу-программа", "Другое"];
+const CONTACT_WAYS = ["WhatsApp", "Telegram", "Звонок"];
+
+function Contact() {
+  const [eventType, setEventType] = useState(EVENT_TYPES[0]);
+  const [way, setWay] = useState(CONTACT_WAYS[0]);
+
+  return (
+    <section id="contact" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <Reveal>
+          <div>
+            <p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="inline-block h-px w-10 bg-primary" />
+              Заявка
+            </p>
+            <h2 className="display-xl text-[clamp(2.8rem,8vw,6rem)]">
+              Заберём вашу
+              <br />
+              <span className="text-primary">дату?</span>
+            </h2>
+            <p className="mt-6 max-w-md text-lg text-muted-foreground">
+              Даты бронирую заранее. Оставьте заявку или напишите напрямую — обсудим формат и
+              предложу решение под вашу задачу.
+            </p>
+
+            <div className="mt-10 space-y-3">
+              <ContactCard
+                label="Позвонить / WhatsApp"
+                value={PHONE_DISPLAY}
+                href={`tel:${PHONE_HREF}`}
+                icon={<Phone className="size-5" />}
+              />
+              <ContactCard
+                label="Telegram"
+                value={TG_HANDLE}
+                href={TG_HREF}
+                icon={<Send className="size-5" />}
+              />
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="rounded-2xl border border-border bg-secondary/30 p-6 md:p-8"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Формат мероприятия
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {EVENT_TYPES.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setEventType(t)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                    eventType === t
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Имя
+              </label>
+              <input
+                type="text"
+                placeholder="Как к вам обращаться"
+                className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+              />
+            </div>
+
+            <div className="mt-5">
+              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Телефон
+              </label>
+              <input
+                type="tel"
+                placeholder="+7 ___ ___-__-__"
+                className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+              />
+            </div>
+
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Удобный способ связи
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {CONTACT_WAYS.map((w) => (
+                  <button
+                    key={w}
+                    type="button"
+                    onClick={() => setWay(w)}
+                    className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                      way === w
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border text-foreground hover:bg-secondary"
+                    }`}
+                  >
+                    {w}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <a
+              href={TG_HREF}
+              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-transform hover:scale-[1.02]"
+            >
+              Записаться на встречу <ArrowUpRight className="size-4" />
+            </a>
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+            </p>
+          </form>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ContactCard({
+  label,
+  value,
+  href,
+  icon,
+}: {
+  label: string;
+  value: string;
+  href: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      className="group flex items-center justify-between gap-4 rounded-xl border border-border bg-background p-5 transition-colors hover:bg-secondary/60"
+    >
+      <div className="flex items-center gap-4">
+        <span className="flex size-11 items-center justify-center rounded-full bg-secondary text-primary">
+          {icon}
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            {label}
+          </p>
+          <p className="mt-0.5 font-display text-xl font-semibold">{value}</p>
+        </div>
+      </div>
+      <ArrowUpRight className="size-5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
+    </a>
   );
 }
 
