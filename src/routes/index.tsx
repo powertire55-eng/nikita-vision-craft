@@ -5,7 +5,6 @@ import { ArrowUpRight, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "luci
 
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/zimin-hero.jpg";
-import fashionImg from "@/assets/zimin-fashion.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
 import santaImg from "@/assets/zimin-santa.jpg";
