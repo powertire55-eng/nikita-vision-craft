@@ -308,11 +308,14 @@ function About() {
   return (
     <section id="about" className="border-y border-border bg-secondary/30">
       <div className="mx-auto grid max-w-7xl items-stretch gap-0 md:grid-cols-2">
-        <div className="relative min-h-[26rem] overflow-hidden md:min-h-[38rem]">
-          <img
-            src={smileImg}
-            alt="Никита Зимин"
-            className="size-full object-cover object-top"
+        <div className="relative min-h-[30rem] overflow-hidden bg-black md:min-h-[42rem]">
+          <video
+            className="size-full object-cover"
+            src={aboutVideo.url}
+            poster={aboutPoster}
+            controls
+            playsInline
+            preload="metadata"
           />
         </div>
         <div className="flex flex-col justify-center px-5 py-16 md:px-14 md:py-20">
