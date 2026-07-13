@@ -588,7 +588,7 @@ function Artists() {
             src={neonImg}
             alt="Никита Зимин на вечеринке"
             loading="lazy"
-            className="h-40 w-full rounded-xl object-cover md:h-32 md:w-48"
+            className="w-full rounded-xl object-contain md:w-48"
           />
           <p className="text-lg text-muted-foreground md:text-xl">
             Соберу нужный состав под концепцию — и добавлю фирменную фишку: могу{" "}
