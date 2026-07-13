@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, Play, Volume2, VolumeX, X } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/zimin-hero.jpg";
@@ -13,6 +13,8 @@ import neonImg from "@/assets/zimin-neon.jpg";
 import smileImg from "@/assets/zimin-smile.jpg";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
+import millionVideo from "@/assets/zimin-million.mp4.asset.json";
+import millionPoster from "@/assets/zimin-million-poster.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -227,24 +229,78 @@ function Formats() {
   return (
     <section id="formats" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
       <Reveal>
-        <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">
-          Форматы
-        </h2>
+        <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы</h2>
       </Reveal>
-      <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-        {FORMATS.map((f, i) => (
-          <Reveal key={f.n} delay={i * 0.05}>
-            <div className="group flex h-full items-center justify-between gap-4 bg-background p-8 transition-colors hover:bg-secondary/60">
-              <div>
-                <span className="font-display text-sm font-medium text-primary">{f.n}</span>
-                <p className="mt-2 font-display text-2xl font-semibold uppercase md:text-3xl">{f.t}</p>
+
+      <div className="mt-12 grid gap-6 lg:grid-cols-12 lg:gap-8">
+        {/* Accent video */}
+        <Reveal className="lg:col-span-5">
+          <FeaturedVideo />
+        </Reveal>
+
+        {/* Formats grid */}
+        <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:col-span-7 lg:h-full lg:auto-rows-fr">
+          {FORMATS.map((f, i) => (
+            <Reveal key={f.n} delay={i * 0.05}>
+              <div className="group flex h-full items-center justify-between gap-4 bg-background p-7 transition-colors hover:bg-secondary/60 md:p-8">
+                <div>
+                  <span className="font-display text-sm font-medium text-primary">{f.n}</span>
+                  <p className="mt-2 font-display text-2xl font-semibold uppercase md:text-3xl">
+                    {f.t}
+                  </p>
+                </div>
+                <ArrowUpRight className="size-6 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
               </div>
-              <ArrowUpRight className="size-6 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
-            </div>
-          </Reveal>
-        ))}
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
+  );
+}
+
+function FeaturedVideo() {
+  const [muted, setMuted] = useState(true);
+
+  return (
+    <figure className="group relative h-full min-h-[30rem] overflow-hidden rounded-lg bg-black lg:min-h-[42rem]">
+      <video
+        className="size-full object-cover"
+        src={millionVideo.url}
+        poster={millionPoster}
+        autoPlay
+        loop
+        muted={muted}
+        playsInline
+        preload="metadata"
+      />
+
+      {/* gradient for legibility */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+
+      {/* top badge */}
+      <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground">
+        <Play className="size-3.5 fill-current" />
+        1 000 000+ просмотров
+      </div>
+
+      {/* sound toggle */}
+      <button
+        onClick={() => setMuted((m) => !m)}
+        aria-label={muted ? "Включить звук" : "Выключить звук"}
+        className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+      >
+        {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+      </button>
+
+      {/* caption */}
+      <figcaption className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+        <p className="font-display text-2xl font-semibold uppercase leading-tight text-white md:text-3xl">
+          Вирусное <span className="text-primary">шоу</span>
+        </p>
+        <p className="mt-1 text-sm text-white/70">Момент, который собрал миллион просмотров</p>
+      </figcaption>
+    </figure>
   );
 }
 
