@@ -33,6 +33,8 @@ const PHONE_HREF = "+79651017108";
 const TG_HANDLE = "@ziminikita";
 const TG_HREF = "https://t.me/ziminikita";
 const WA_HREF = "https://wa.me/79651017108";
+const EMAIL = "Ziminikita@gmail.com";
+const EMAIL_HREF = "mailto:Ziminikita@gmail.com";
 
 const NAV = [
   { label: "Форматы", href: "#formats" },
