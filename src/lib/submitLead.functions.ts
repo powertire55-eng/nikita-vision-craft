@@ -31,7 +31,7 @@ export const submitLead = createServerFn({ method: "POST" })
       try {
         const result = await appendToSheet({
           spreadsheetId,
-          range: "Заявки!A1",
+          range: "Заявка!A1",
           values: [row],
         });
         updatedRange = result.updates?.updatedRange;
