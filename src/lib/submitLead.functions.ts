@@ -12,7 +12,7 @@ const submitLeadSchema = z.object({
 });
 
 export const submitLead = createServerFn({ method: "POST" })
-  .inputValidator((data) => submitLeadSchema.parse(data))
+  .validator((data) => submitLeadSchema.parse(data))
   .handler(async ({ data }) => {
     const spreadsheetId = process.env.GOOGLE_SHEETS_LEADS_SPREADSHEET_ID;
     if (!spreadsheetId) {

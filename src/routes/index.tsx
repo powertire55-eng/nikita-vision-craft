@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowUpRight, Mail, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { Reveal } from "@/components/Reveal";
+import { submitLead } from "@/lib/submitLead.functions";
 import heroImg from "@/assets/zimin-hero.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
@@ -30,6 +33,8 @@ const PHONE_HREF = "+79651017108";
 const TG_HANDLE = "@ziminikita";
 const TG_HREF = "https://t.me/ziminikita";
 const WA_HREF = "https://wa.me/79651017108";
+const EMAIL = "Ziminikita@gmail.com";
+const EMAIL_HREF = "mailto:Ziminikita@gmail.com";
 
 const NAV = [
   { label: "Форматы", href: "#formats" },
@@ -606,6 +611,43 @@ const CONTACT_WAYS = ["WhatsApp", "Telegram", "Звонок"];
 function Contact() {
   const [eventType, setEventType] = useState(EVENT_TYPES[0]);
   const [way, setWay] = useState(CONTACT_WAYS[0]);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState("");
+  const [comment, setComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submit = useServerFn(submitLead);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim()) {
+      toast.error("Заполните имя и телефон");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await submit({
+        data: {
+          name: name.trim(),
+          phone: phone.trim(),
+          eventType,
+          contactWay: way,
+          date: date.trim(),
+          comment: comment.trim(),
+        },
+      });
+      toast.success("Заявка отправлена! Свяжусь с вами в ближайшее время.");
+      setName("");
+      setPhone("");
+      setDate("");
+      setComment("");
+    } catch (error) {
+      console.error(error);
+      toast.error("Не удалось отправить заявку. Попробуйте позже или напишите напрямую.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
@@ -639,13 +681,19 @@ function Contact() {
                 href={TG_HREF}
                 icon={<Send className="size-5" />}
               />
+              <ContactCard
+                label="Email"
+                value={EMAIL}
+                href={EMAIL_HREF}
+                icon={<Mail className="size-5" />}
+              />
             </div>
           </div>
         </Reveal>
 
         <Reveal delay={0.1}>
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
             className="rounded-2xl border border-border bg-secondary/30 p-6 md:p-8"
           >
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -674,6 +722,9 @@ function Contact() {
               </label>
               <input
                 type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Как к вам обращаться"
                 className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
               />
@@ -685,7 +736,23 @@ function Contact() {
               </label>
               <input
                 type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 placeholder="+7 ___ ___-__-__"
+                className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+              />
+            </div>
+
+            <div className="mt-5">
+              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Предполагаемая дата
+              </label>
+              <input
+                type="text"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                placeholder="Например, 15 августа"
                 className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
               />
             </div>
@@ -712,12 +779,14 @@ function Contact() {
               </div>
             </div>
 
-            <a
-              href={TG_HREF}
-              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-transform hover:scale-[1.02]"
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-transform hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
             >
-              Записаться на встречу <ArrowUpRight className="size-4" />
-            </a>
+              {isSubmitting ? "Отправляем..." : "Записаться на встречу"}{" "}
+              <ArrowUpRight className="size-4" />
+            </button>
             <p className="mt-3 text-center text-xs text-muted-foreground">
               Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
             </p>
