@@ -198,9 +198,9 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35 }}
-          className="mt-6 w-full overflow-hidden border-y border-white/10 bg-black/30 py-3 backdrop-blur-sm md:mt-8"
+          className="mt-6 -mx-5 overflow-hidden border-y border-white/10 bg-black/30 py-3 backdrop-blur-sm md:mt-8 md:-mx-8"
         >
-          <div className="flex">
+          <div className="flex w-screen">
             <div className="animate-marquee flex shrink-0 items-center gap-6 pr-6">
               {[
                 "Свадьбы",
@@ -403,10 +403,9 @@ function Range() {
               {RANGE.map((r) => (
                 <div
                   key={r.a}
-                  className="flex items-center gap-4 font-display text-xl font-semibold uppercase md:text-2xl"
+                  className="grid grid-cols-2 gap-6 font-display text-xl font-semibold uppercase md:text-2xl"
                 >
                   <span>{r.a}</span>
-                  <span className="h-px flex-1 bg-border" />
                   <span className="text-primary">{r.b}</span>
                 </div>
               ))}
@@ -420,19 +419,19 @@ function Range() {
               src={santaImg}
               alt="Никита Зимин на новогоднем празднике"
               loading="lazy"
-              className="col-span-1 row-span-2 h-full min-h-[22rem] w-full rounded-lg object-cover"
+              className="col-span-1 row-span-2 h-full w-full rounded-lg bg-black object-contain"
             />
             <img
               src={costumeImg}
               alt="Никита Зимин в костюмированном шоу"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-square w-full rounded-lg bg-black object-contain"
             />
             <img
               src={santaKissImg}
               alt="Никита Зимин на тематической вечеринке"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-square w-full rounded-lg bg-black object-contain"
             />
           </div>
         </Reveal>
@@ -461,7 +460,7 @@ function Shows() {
               src={stageGreenImg}
               alt="Никита Зимин ведёт шоу"
               loading="lazy"
-              className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:aspect-square"
+              className="w-full bg-black object-contain transition-transform duration-700 group-hover:scale-105"
             />
           </figure>
         </Reveal>
