@@ -15,11 +15,6 @@ const submitLeadSchema = z.object({
 export const submitLead = createServerFn({ method: "POST" })
   .validator((data) => submitLeadSchema.parse(data))
   .handler(async ({ data }) => {
-    const spreadsheetId = process.env.GOOGLE_SHEETS_LEADS_SPREADSHEET_ID;
-    if (!spreadsheetId) {
-      throw new Error("GOOGLE_SHEETS_LEADS_SPREADSHEET_ID is not configured");
-    }
-
     const row = [
       new Date().toLocaleString("ru-RU"),
       data.name,
@@ -30,11 +25,22 @@ export const submitLead = createServerFn({ method: "POST" })
       data.comment || "",
     ];
 
-    const result = await appendToSheet({
-      spreadsheetId,
-      range: "Заявки!A1",
-      values: [row],
-    });
+    const spreadsheetId = process.env.GOOGLE_SHEETS_LEADS_SPREADSHEET_ID;
+    let updatedRange: string | undefined;
+    if (spreadsheetId) {
+      try {
+        const result = await appendToSheet({
+          spreadsheetId,
+          range: "Заявки!A1",
+          values: [row],
+        });
+        updatedRange = result.updates?.updatedRange;
+      } catch (err) {
+        console.error("Google Sheets append failed", err);
+      }
+    } else {
+      console.warn("GOOGLE_SHEETS_LEADS_SPREADSHEET_ID is not configured — skipping Sheets append");
+    }
 
     const escape = (s: string) =>
       s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -55,5 +61,5 @@ export const submitLead = createServerFn({ method: "POST" })
       console.error("Telegram notification failed", err);
     }
 
-    return { success: true, updatedRange: result.updates?.updatedRange };
+    return { success: true, updatedRange };
   });
