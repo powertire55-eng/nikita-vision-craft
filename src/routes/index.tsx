@@ -140,7 +140,7 @@ function Header() {
 function Hero() {
   return (
     <section id="top" className="relative min-h-svh overflow-hidden">
-      <div className="absolute inset-0 bg-black/60">
+      <div className="absolute inset-0 bg-background">
         <img
           src={heroImg}
           alt="Никита Зимин — ведущий мероприятий"
