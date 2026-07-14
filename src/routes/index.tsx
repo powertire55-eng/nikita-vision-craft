@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowUpRight, Mail, Menu, Phone, Play, Send, Volume2, VolumeX, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { Reveal } from "@/components/Reveal";
+import { submitLead } from "@/lib/submitLead.functions";
 import heroImg from "@/assets/zimin-hero.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
