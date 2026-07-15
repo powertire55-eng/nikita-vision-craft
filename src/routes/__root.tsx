@@ -85,13 +85,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Никита Зимин — ведущий, шоумен и артист. Свадьбы, корпоративы и частные события с настроением.",
       },
       { name: "author", content: "Никита Зимин" },
-      { property: "og:title", content: "Никита Зимин — ведущий мероприятий" },
+      { property: "og:title", content: "Никита Зимин — ведущий мероприятий и шоумен" },
       {
         property: "og:description",
-        content: "Ведущий, шоумен и артист. Свадьбы, корпоративы, частные события.",
+        content: "Никита Зимин — ведущий, шоумен и артист. Свадьбы, корпоративы и частные события с настроением.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Никита Зимин — ведущий мероприятий и шоумен" },
+      { name: "twitter:description", content: "Никита Зимин — ведущий, шоумен и артист. Свадьбы, корпоративы и частные события с настроением." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/051e95dc-c3cf-4221-bb51-7ee5023b434e/id-preview-b9f499f0--5e50064c-a2da-4194-9640-3157ad096aff.lovable.app-1784050165224.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/051e95dc-c3cf-4221-bb51-7ee5023b434e/id-preview-b9f499f0--5e50064c-a2da-4194-9640-3157ad096aff.lovable.app-1784050165224.png" },
     ],
     links: [
       {
