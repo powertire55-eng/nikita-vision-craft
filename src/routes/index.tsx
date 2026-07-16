@@ -22,6 +22,7 @@ import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
 import millionVideo from "@/assets/zimin-million.mp4.asset.json";
 import millionPoster from "@/assets/zimin-million-poster.jpg";
+import qrCodeImg from "@/assets/qr-code.png";
 
 const santaImg = santaAsset.url;
 const santaKissImg = santaKissAsset.url;
@@ -61,6 +62,7 @@ function Index() {
       <About />
       <Artists />
       <Contact />
+      <QrInvite />
       <Footer />
     </div>
   );
@@ -840,6 +842,32 @@ function ContactCard({
       </div>
       <ArrowUpRight className="size-5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
     </a>
+  );
+}
+
+function QrInvite() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+      <Reveal>
+        <div className="flex flex-col items-center gap-6 text-center">
+          <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-block h-px w-10 bg-primary" />
+            Быстрая ссылка
+          </p>
+          <h2 className="display-xl text-[clamp(2rem,5vw,3.5rem)]">
+            Отсканируй, чтобы открыть сайт
+          </h2>
+          <div className="rounded-2xl bg-foreground p-4 md:p-6">
+            <img
+              src={qrCodeImg}
+              alt="QR-код сайта ziminikita.ru"
+              className="size-48 rounded-lg md:size-56"
+            />
+          </div>
+          <p className="text-muted-foreground">ziminikita.ru</p>
+        </div>
+      </Reveal>
+    </section>
   );
 }
 
