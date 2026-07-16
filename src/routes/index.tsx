@@ -14,6 +14,9 @@ import santaAsset from "@/assets/zimin-santa.jpg.asset.json";
 import santaKissAsset from "@/assets/zimin-santa-kiss.jpg.asset.json";
 import micStageAsset from "@/assets/zimin-mic-stage.jpg.asset.json";
 import costumeAsset from "@/assets/zimin-costume.jpg.asset.json";
+import pinkSuitAsset from "@/assets/zimin-pink-suit.jpg.asset.json";
+import formatsVideo from "@/assets/zimin-formats.mp4.asset.json";
+import formatsPoster from "@/assets/zimin-formats-poster.jpg";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
 import millionVideo from "@/assets/zimin-million.mp4.asset.json";
@@ -23,6 +26,7 @@ const santaImg = santaAsset.url;
 const santaKissImg = santaKissAsset.url;
 const micStageImg = micStageAsset.url;
 const costumeImg = costumeAsset.url;
+const pinkSuitImg = pinkSuitAsset.url;
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -344,11 +348,13 @@ function Formats() {
       <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-5">
           <figure className="group relative h-full min-h-[26rem] overflow-hidden rounded-lg bg-secondary lg:min-h-[38rem]">
-            <img
-              src={micStageImg}
-              alt="Никита Зимин на сцене с микрофоном"
-              loading="lazy"
-              className="size-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            <video
+              className="size-full object-cover"
+              src={formatsVideo.url}
+              poster={formatsPoster}
+              controls
+              playsInline
+              preload="metadata"
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             <figcaption className="absolute inset-x-0 bottom-0 p-5 md:p-6">
@@ -427,8 +433,8 @@ function Range() {
               className="col-span-1 row-span-2 h-full w-full rounded-lg bg-black object-contain"
             />
             <img
-              src={costumeImg}
-              alt="Никита Зимин в костюмированном шоу"
+              src={pinkSuitImg}
+              alt="Никита Зимин в розовом костюме с микрофоном"
               loading="lazy"
               className="aspect-square w-full rounded-lg bg-black object-contain"
             />
