@@ -433,8 +433,8 @@ function Range() {
               className="col-span-1 row-span-2 h-full w-full rounded-lg bg-black object-contain"
             />
             <img
-              src={costumeImg}
-              alt="Никита Зимин в костюмированном шоу"
+              src={pinkSuitImg}
+              alt="Никита Зимин в розовом костюме с микрофоном"
               loading="lazy"
               className="aspect-square w-full rounded-lg bg-black object-contain"
             />
