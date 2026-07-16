@@ -15,6 +15,7 @@ import santaKissAsset from "@/assets/zimin-santa-kiss.jpg.asset.json";
 import micStageAsset from "@/assets/zimin-mic-stage.jpg.asset.json";
 import costumeAsset from "@/assets/zimin-costume.jpg.asset.json";
 import pinkSuitAsset from "@/assets/zimin-pink-suit.jpg.asset.json";
+import tonalityAsset from "@/assets/nikita-tonality.jpg.asset.json";
 import formatsVideo from "@/assets/zimin-formats.mp4.asset.json";
 import formatsPoster from "@/assets/zimin-formats-poster.jpg";
 import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
@@ -27,6 +28,7 @@ const santaKissImg = santaKissAsset.url;
 const micStageImg = micStageAsset.url;
 const costumeImg = costumeAsset.url;
 const pinkSuitImg = pinkSuitAsset.url;
+const tonalityImg = tonalityAsset.url;
 
 export const Route = createFileRoute("/")({
   component: Index,
