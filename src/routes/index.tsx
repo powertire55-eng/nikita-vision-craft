@@ -22,6 +22,7 @@ import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
 import millionVideo from "@/assets/zimin-million.mp4.asset.json";
 import millionPoster from "@/assets/zimin-million-poster.jpg";
+import qrCodeImg from "@/assets/qr-code.png";
 
 const santaImg = santaAsset.url;
 const santaKissImg = santaKissAsset.url;
