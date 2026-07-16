@@ -62,6 +62,7 @@ function Index() {
       <About />
       <Artists />
       <Contact />
+      <QrInvite />
       <Footer />
     </div>
   );
