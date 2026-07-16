@@ -348,11 +348,13 @@ function Formats() {
       <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-5">
           <figure className="group relative h-full min-h-[26rem] overflow-hidden rounded-lg bg-secondary lg:min-h-[38rem]">
-            <img
-              src={micStageImg}
-              alt="Никита Зимин на сцене с микрофоном"
-              loading="lazy"
-              className="size-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            <video
+              className="size-full object-cover"
+              src={formatsVideo.url}
+              poster={formatsPoster}
+              controls
+              playsInline
+              preload="metadata"
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             <figcaption className="absolute inset-x-0 bottom-0 p-5 md:p-6">
