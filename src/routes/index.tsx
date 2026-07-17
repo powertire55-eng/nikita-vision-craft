@@ -106,7 +106,7 @@ function Header() {
           href="#contact"
           className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] md:inline-flex"
         >
-          Забронировать
+          Обсудить детали
         </a>
 
         <button
@@ -136,7 +136,7 @@ function Header() {
               onClick={() => setOpen(false)}
               className="mt-2 rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground"
             >
-              Забронировать
+              Обсудить детали
             </a>
           </div>
         </div>
@@ -204,7 +204,7 @@ function Hero() {
               href="#contact"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
             >
-              Забронировать дату <ArrowUpRight className="size-4" />
+              Обсудить детали <ArrowUpRight className="size-4" />
             </a>
             <a
               href="#million"
@@ -350,9 +350,9 @@ function Formats() {
     <section id="formats" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
       <Reveal>
         <div className="mb-12 flex items-end justify-between gap-4">
-          <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы</h2>
-          <p className="hidden max-w-xs pb-2 text-sm text-muted-foreground md:block">
-            Любое событие — под ключ. Сценарий, музыка и настроение собираются под вашу задачу.
+          <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы мероприятий</h2>
+          <p className="hidden max-w-md pb-2 text-sm text-muted-foreground md:block">
+            Провожу свадьбы, корпоративы, частные и деловые мероприятия в Москве и по всей России. Каждый формат адаптируется под вашу аудиторию, цели и атмосферу события.
           </p>
         </div>
       </Reveal>
@@ -886,7 +886,7 @@ function Footer() {
         <span className="font-display text-lg font-bold text-foreground">
           ЗИМИН<span className="text-primary">.</span>
         </span>
-        <span>© {new Date().getFullYear()} Никита Зимин · Ведущий мероприятий</span>
+        <span>Ведущий свадеб, корпоративов и мероприятий в Москве с выездом по всей России</span>
       </div>
     </footer>
   );
