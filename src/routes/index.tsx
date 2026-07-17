@@ -349,9 +349,9 @@ function Formats() {
   return (
     <section id="formats" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
       <Reveal>
-        <div className="mb-12 flex items-end justify-between gap-4">
+        <div className="mb-12 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
           <h2 className="display-xl text-[clamp(2.5rem,7vw,5.5rem)]">Форматы мероприятий</h2>
-          <p className="hidden max-w-md pb-2 text-sm text-muted-foreground md:block">
+          <p className="max-w-md text-sm text-muted-foreground md:pb-2 md:text-base">
             Провожу свадьбы, корпоративы, частные и деловые мероприятия в Москве и по всей России. Каждый формат адаптируется под вашу аудиторию, цели и атмосферу события.
           </p>
         </div>
