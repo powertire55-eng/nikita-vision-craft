@@ -173,12 +173,20 @@ function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="display-xl text-[clamp(3.5rem,13vw,11rem)]"
+          className="display-xl text-[clamp(2.5rem,9vw,7rem)] leading-[0.95]"
         >
-          Никита
+          Ведущий мероприятий
           <br />
-          <span className="text-primary">Зимин</span>
+          <span className="text-primary">в Москве и по всей России</span>
         </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mt-4 font-display text-2xl font-bold tracking-tight md:text-3xl"
+        >
+          Никита Зимин
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
