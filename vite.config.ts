@@ -15,7 +15,7 @@ const isVdsBuild = process.env.VDS_BUILD === "1";
 
 export default defineConfig(
   isVdsBuild
-    ? {
+    ? ({
         nitro: {
           preset: "static",
           prerender: {
@@ -24,7 +24,7 @@ export default defineConfig(
             routes: ["/", "/sitemap.xml", "/robots.txt"],
           },
         },
-      }
+      } as any)
     : {
         tanstackStart: {
           // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
