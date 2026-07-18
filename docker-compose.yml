@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_LEAD_ENDPOINT: ${VITE_LEAD_ENDPOINT}
+    image: ziminikita-site:latest
+    container_name: ziminikita-site
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOST: "0.0.0.0"
