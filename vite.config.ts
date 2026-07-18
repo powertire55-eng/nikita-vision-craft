@@ -6,17 +6,25 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// VDS_BUILD=1 switches the build to a Node.js server (for Selectel VDS via Docker).
+// VDS_BUILD=1 switches the build to a fully static site (Nitro static preset
+// + prerender). Output is emitted to .output/public/ and can be served by
+// plain Nginx — no Node.js runtime required. The lead form still works: it
+// POSTs cross-origin to VITE_LEAD_ENDPOINT (the Lovable-hosted API).
 // Default build stays on Cloudflare Workers (Lovable-hosted).
 const isVdsBuild = process.env.VDS_BUILD === "1";
 
 export default defineConfig(
   isVdsBuild
-    ? {
-        // Node-server preset: our Cloudflare-shaped src/server.ts wrapper is skipped,
-        // TanStack Start uses its default Node entry which listens on process.env.PORT.
-        nitro: { preset: "node-server" },
-      }
+    ? ({
+        nitro: {
+          preset: "static",
+          prerender: {
+            crawlLinks: true,
+            failOnError: false,
+            routes: ["/", "/sitemap.xml", "/robots.txt"],
+          },
+        },
+      } as any)
     : {
         tanstackStart: {
           // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
