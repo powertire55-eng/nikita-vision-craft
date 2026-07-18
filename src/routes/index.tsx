@@ -650,16 +650,25 @@ function Contact() {
     }
     setIsSubmitting(true);
     try {
-      await submit({
-        data: {
-          name: name.trim(),
-          phone: phone.trim(),
-          eventType,
-          contactWay: way,
-          date: date.trim(),
-          comment: comment.trim(),
-        },
-      });
+      const payload = {
+        name: name.trim(),
+        phone: phone.trim(),
+        eventType,
+        contactWay: way,
+        date: date.trim(),
+        comment: comment.trim(),
+      };
+      const endpoint = import.meta.env.VITE_LEAD_ENDPOINT as string | undefined;
+      if (endpoint) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(`Lead endpoint returned ${res.status}`);
+      } else {
+        await submit({ data: payload });
+      }
       toast.success("Заявка отправлена! Свяжусь с вами в ближайшее время.");
       setName("");
       setPhone("");

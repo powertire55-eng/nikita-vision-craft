@@ -1,0 +1,17 @@
+node_modules
+.output
+.nitro
+dist
+.git
+.github
+.vscode
+.idea
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+.lovable
+.workspace
+.agents
+.claude
