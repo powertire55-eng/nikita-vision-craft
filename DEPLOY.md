@@ -2,9 +2,10 @@
 
 Архитектура:
 
-- Фронтенд + SSR: Node.js в Docker на VDS (`node .output/server/index.mjs`, порт 3000).
-- nginx: reverse proxy 80/443 → 127.0.0.1:3000, SSL от Let's Encrypt.
+- Фронтенд: полностью статический сайт (Nitro preset `static` + prerender) в Docker на VDS.
+- nginx: reverse proxy 80/443 → 127.0.0.1:3000, SSL от Let's Encrypt, отдаёт статику из контейнера.
 - Приём заявок формы: POST на публичный роут Lovable-приложения (`nikita-vision-craft.lovable.app/api/public/submit-lead`), который дальше пишет в Google Sheets и Telegram.
+- Репозиторий: https://github.com/powertire55-eng/nikita-vision-craft
 
 ---
 
