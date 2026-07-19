@@ -6,7 +6,9 @@ WORKDIR /app
 COPY package.json bun.lockb* bunfig.toml* ./
 RUN bun install --frozen-lockfile || bun install
 
-# Copy sources and build a fully static site (Nitro static preset + prerender)
+# Copy sources and build a Node.js SSR server (Nitro node-server preset).
+# VDS_BUILD=1 switches vite.config.ts to the node-server preset.
+# Docker build environment is not the Lovable sandbox, so the preset is respected.
 COPY . .
 ARG VITE_LEAD_ENDPOINT
 ENV VITE_LEAD_ENDPOINT=${VITE_LEAD_ENDPOINT}
@@ -14,12 +16,17 @@ ENV VDS_BUILD=1
 RUN bun run build
 
 # ---------- runtime stage ----------
-# Serve the static output with plain Nginx — no Node.js at runtime.
-FROM nginx:1.27-alpine AS runtime
+FROM node:20-alpine AS runtime
+WORKDIR /app
 
-# Nitro emits the fully prerendered site to .output/public/
-COPY --from=build /app/.output/public/ /usr/share/nginx/html/
-COPY deploy/nginx-container.conf /etc/nginx/conf.d/default.conf
+# Nitro emits the SSR server to .output/server/
+COPY --from=build /app/.output/server/ ./server/
+COPY --from=build /app/.output/public/ ./public/
+COPY --from=build /app/.output/nitro.json ./nitro.json
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOST=0.0.0.0
 
 EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "./server/index.mjs"]
