@@ -46,7 +46,7 @@ ufw --force enable
 
 ```bash
 mkdir -p /opt && cd /opt
-git clone <URL-репозитория> zimin
+git clone https://github.com/powertire55-eng/nikita-vision-craft.git zimin
 cd zimin
 
 # Настройки сборки/рантайма
@@ -58,11 +58,13 @@ docker compose up -d --build
 curl -I http://127.0.0.1:3000
 ```
 
-При обновлении:
+При обновлении (локально на VDS):
 
 ```bash
 cd /opt/zimin && git pull && docker compose up -d --build
 ```
+
+> **GitHub sync:** Lovable поддерживает двустороннюю синхронизацию с GitHub. После подключения репозитория любые изменения в Lovable автоматически попадают в `main`, а `git pull` на VDS подтянет их. Если правки вносятся напрямую в GitHub, они также синхронизируются в Lovable.
 
 ## 3. nginx + SSL
 
