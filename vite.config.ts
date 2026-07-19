@@ -16,11 +16,13 @@ const isVdsBuild = process.env.VDS_BUILD === "1";
 export default defineConfig(
   isVdsBuild
     ? ({
+        tanstackStart: {
+          // Use the same SSR entry wrapper for prerendering.
+          server: { entry: "server" },
+        },
         nitro: {
           preset: "static",
           prerender: {
-            crawlLinks: true,
-            failOnError: false,
             routes: ["/", "/sitemap.xml", "/robots.txt"],
           },
         },
