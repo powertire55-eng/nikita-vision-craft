@@ -1,115 +1,475 @@
-# Деплой ziminikita.ru на Selectel VDS
+# Деплой сайта ziminikita.ru на Selectel VDS (пошаговая инструкция)
 
-Архитектура:
+## Что получится в итоге
 
-- Фронтенд: Node.js SSR-сервер (TanStack Start + Nitro preset `node-server`) в Docker на VDS, порт 3000.
-- nginx: reverse proxy 80/443 → 127.0.0.1:3000, SSL от Let's Encrypt.
-- Приём заявок формы: POST на публичный роут Lovable-приложения (`nikita-vision-craft.lovable.app/api/public/submit-lead`), который дальше пишет в Google Sheets и Telegram.
+- Сайт крутится на вашем VDS в Docker-контейнере на порту 3000.
+- nginx на самом сервере принимает HTTP/HTTPS и проксирует запросы на 127.0.0.1:3000.
+- SSL-сертификат от Let's Encrypt.
+- Форма заявок на сайте продолжает уходить на Lovable-бэкенд: `https://nikita-vision-craft.lovable.app/api/public/submit-lead`, а оттуда в Google Sheets и Telegram.
 - Репозиторий: https://github.com/powertire55-eng/nikita-vision-craft
 
 ---
 
-## 0. Заказ VDS
+## Шаг 0. Подготовьте VDS в Selectel
 
-Рекомендация Selectel:
+1. Зайдите в личный кабинет Selectel.
+2. Создайте новый сервер (VDS).
+3. Параметры сервера:
+   - ОС: Ubuntu 24.04 LTS
+   - Конфигурация: минимум 2 vCPU, 2 ГБ RAM, 20 ГБ NVMe
+   - Регион: Москва или Санкт-Петербург
+   - Публичный IPv4-адрес
+   - Авторизация: SSH-ключ (не пароль)
+4. После создания сервера запишите публичный IPv4-адрес — он придёт в письме или будет виден в карточке сервера.
 
-- Ubuntu 24.04 LTS
-- 2 vCPU / 2 ГБ RAM / 20 ГБ NVMe (минимум для комфортной работы)
-- Публичный IPv4
-- Регион Москва или Санкт-Петербург
-- SSH-ключ (не пароль)
+---
 
-После создания сервера войдите: `ssh root@<IP>`.
+## Шаг 1. Подключитесь к серверу по SSH
 
-## 1. Базовая настройка сервера
+Откройте терминал на вашем компьютере и выполните команду, заменив `<IP>` на IP вашего сервера.
 
 ```bash
-apt update && apt upgrade -y
-apt install -y ca-certificates curl gnupg lsb-release git ufw nginx certbot python3-certbot-nginx
+ssh root@<IP>
+```
 
-# Docker Engine + compose plugin
+Пример:
+
+```bash
+ssh root@185.12.34.56
+```
+
+---
+
+## Шаг 2. Обновите систему
+
+Команда обновляет список пакетов.
+
+```bash
+apt update
+```
+
+Команда устанавливает доступные обновления безопасности.
+
+```bash
+apt upgrade -y
+```
+
+---
+
+## Шаг 3. Установите базовые пакеты
+
+Установите утилиты, которые понадобятся для Git, nginx, SSL и Docker.
+
+```bash
+apt install -y ca-certificates
+```
+
+```bash
+apt install -y curl
+```
+
+```bash
+apt install -y gnupg
+```
+
+```bash
+apt install -y lsb-release
+```
+
+```bash
+apt install -y git
+```
+
+```bash
+apt install -y ufw
+```
+
+```bash
+apt install -y nginx
+```
+
+```bash
+apt install -y certbot
+```
+
+```bash
+apt install -y python3-certbot-nginx
+```
+
+---
+
+## Шаг 4. Установите Docker
+
+Создайте каталог для ключей репозитория Docker.
+
+```bash
 install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-chmod a+r /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-  > /etc/apt/sources.list.d/docker.list
-apt update && apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
 
-# Firewall
+Добавьте официальный GPG-ключ Docker.
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+
+Установите права на файл ключа.
+
+```bash
+chmod a+r /etc/apt/keyrings/docker.gpg
+```
+
+Добавьте репозиторий Docker в список источников пакетов.
+
+```bash
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+```
+
+Обновите список пакетов после добавления нового репозитория.
+
+```bash
+apt update
+```
+
+Установите Docker Engine.
+
+```bash
+apt install -y docker-ce
+```
+
+Установите CLI Docker.
+
+```bash
+apt install -y docker-ce-cli
+```
+
+Установите containerd.
+
+```bash
+apt install -y containerd.io
+```
+
+Установите плагин Buildx.
+
+```bash
+apt install -y docker-buildx-plugin
+```
+
+Установите плагин Docker Compose.
+
+```bash
+apt install -y docker-compose-plugin
+```
+
+Проверьте, что Docker запущен.
+
+```bash
+systemctl status docker
+```
+
+Если Docker не запущен, включите его.
+
+```bash
+systemctl enable docker
+```
+
+```bash
+systemctl start docker
+```
+
+---
+
+## Шаг 5. Настройте фаервол
+
+Разрешите входящие SSH-подключения.
+
+```bash
 ufw allow OpenSSH
+```
+
+Разрешите входящие HTTP и HTTPS подключения для nginx.
+
+```bash
 ufw allow 'Nginx Full'
+```
+
+Включите фаервол.
+
+```bash
 ufw --force enable
 ```
 
-## 2. Клонирование репозитория и запуск контейнера
+Проверьте статус фаервола.
 
 ```bash
-mkdir -p /opt && cd /opt
+ufw status
+```
+
+---
+
+## Шаг 6. Склонируйте репозиторий на сервер
+
+Создайте каталог для проекта.
+
+```bash
+mkdir -p /opt
+```
+
+Перейдите в этот каталог.
+
+```bash
+cd /opt
+```
+
+Склонируйте репозиторий с GitHub в папку `zimin`.
+
+```bash
 git clone https://github.com/powertire55-eng/nikita-vision-craft.git zimin
+```
+
+Перейдите в папку проекта.
+
+```bash
 cd zimin
+```
 
-# Настройки сборки/рантайма
+---
+
+## Шаг 7. Подготовьте переменные окружения
+
+Скопируйте пример файла окружения.
+
+```bash
 cp .env.example .env
-# при необходимости отредактируйте VITE_LEAD_ENDPOINT
+```
 
+Откройте файл `.env` для редактирования.
+
+```bash
+nano .env
+```
+
+Убедитесь, что внутри такая строка:
+
+```text
+VITE_LEAD_ENDPOINT=https://nikita-vision-craft.lovable.app/api/public/submit-lead
+```
+
+Сохраните файл: `Ctrl + O`, затем `Enter`, затем выход: `Ctrl + X`.
+
+> Этот адрес оставляет приём заявок на Lovable-бэкенде. Для него уже настроены Google Sheets и Telegram. Менять его не нужно, если вы не хотите переносить приём заявок на VDS.
+
+---
+
+## Шаг 8. Соберите и запустите сайт в Docker
+
+Запустите сборку и контейнер в фоновом режиме.
+
+```bash
 docker compose up -d --build
-# Проверка
+```
+
+Дождитесь окончания сборки. Обычно это занимает 2–5 минут.
+
+Проверьте, что контейнер запущен.
+
+```bash
+docker ps
+```
+
+Проверьте, что приложение отвечает на локальном порту.
+
+```bash
 curl -I http://127.0.0.1:3000
 ```
 
-При обновлении (локально на VDS):
+Если всё в порядке, вы увидите `HTTP/1.1 200 OK`.
 
-```bash
-cd /opt/zimin && git pull && docker compose up -d --build
-```
+---
 
-> **GitHub sync:** Lovable поддерживает двустороннюю синхронизацию с GitHub. После подключения репозитория любые изменения в Lovable автоматически попадают в `main`, а `git pull` на VDS подтянет их. Если правки вносятся напрямую в GitHub, они также синхронизируются в Lovable.
+## Шаг 9. Настройте nginx
 
-## 3. nginx + SSL
+Скопируйте конфигурацию сайта из репозитория в каталог nginx.
 
 ```bash
 cp /opt/zimin/deploy/nginx-ziminikita.conf /etc/nginx/sites-available/ziminikita.ru
-ln -s /etc/nginx/sites-available/ziminikita.ru /etc/nginx/sites-enabled/ziminikita.ru
-rm -f /etc/nginx/sites-enabled/default
-mkdir -p /var/www/certbot
-nginx -t && systemctl reload nginx
 ```
 
-Выпуск сертификата (после того как DNS уже указывает на VDS, см. п. 4):
+Удалите конфигурацию сайта по умолчанию, чтобы не было конфликта.
+
+```bash
+rm -f /etc/nginx/sites-enabled/default
+```
+
+Создайте символическую ссылку на конфигурацию.
+
+```bash
+ln -s /etc/nginx/sites-available/ziminikita.ru /etc/nginx/sites-enabled/ziminikita.ru
+```
+
+Создайте каталог для проверки домена Let's Encrypt.
+
+```bash
+mkdir -p /var/www/certbot
+```
+
+Проверьте конфигурацию nginx на ошибки.
+
+```bash
+nginx -t
+```
+
+Перезапустите nginx.
+
+```bash
+systemctl reload nginx
+```
+
+Проверьте, что nginx запущен.
+
+```bash
+systemctl status nginx
+```
+
+---
+
+## Шаг 10. Переключите DNS на VDS
+
+Перейдите в панель управления доменом `ziminikita.ru` (там, где сейчас настроены DNS-записи Lovable).
+
+1. Найдите A-запись для `@`.
+2. Установите её значение равным IP вашего VDS.
+3. Найдите A-запись для `www` (если есть).
+4. Установите и её значение равным IP вашего VDS.
+5. TTL установите 300 или 600 секунд.
+6. Сохраните изменения.
+
+Дождитесь обновления DNS. Проверьте это командой с вашего компьютера.
+
+```bash
+dig +short ziminikita.ru
+```
+
+Команда должна вернуть IP вашего VDS, а не старый IP Lovable.
+
+---
+
+## Шаг 11. Получите SSL-сертификат
+
+После того как DNS обновился и домен указывает на VDS, выполните команду для выпуска сертификата.
 
 ```bash
 certbot --nginx -d ziminikita.ru -d www.ziminikita.ru --redirect --agree-tos -m you@example.com
-systemctl status certbot.timer   # автоматическое обновление уже включено
 ```
 
-## 4. Переключение DNS
+Замените `you@example.com` на ваш реальный email.
 
-В панели вашего регистратора (там, где сейчас настроены A-записи на 185.158.133.1 — Lovable):
+Следуйте инструкциям на экране. Обычно нужно согласиться с условиями и выбрать, делать ли редирект с HTTP на HTTPS. Рекомендуется сделать редирект.
 
-1. Удалить или заменить A-записи `@` и `www` на IP вашего Selectel VDS.
-2. TTL 300–600 секунд.
-3. Убрать TXT `_lovable` (не обязательно, но чисто).
-4. Проверка: `dig +short ziminikita.ru` — должен вернуть IP Selectel.
+Проверьте, что автоматическое обновление сертификата включено.
 
-В Lovable проект остаётся опубликованным по адресу `nikita-vision-craft.lovable.app` — оттуда работает форма заявок.
+```bash
+systemctl status certbot.timer
+```
 
-## 5. Проверка после переезда
+---
 
-- `curl -I https://ziminikita.ru` → 200
-- Открыть сайт в браузере, отправить тестовую заявку — она должна прийти в Telegram и Google Sheets.
-- `https://ziminikita.ru/sitemap.xml` и `https://ziminikita.ru/robots.txt` — 200.
-- `https://www.ssllabs.com/ssltest/analyze.html?d=ziminikita.ru` — рейтинг A.
+## Шаг 12. Проверьте работу сайта
 
-## 6. Обновления
+Откройте сайт в браузере.
+
+```text
+https://ziminikita.ru
+```
+
+Проверьте заголовки ответа.
+
+```bash
+curl -I https://ziminikita.ru
+```
+
+Проверьте, что sitemap и robots.txt открываются.
+
+```bash
+curl -I https://ziminikita.ru/sitemap.xml
+```
+
+```bash
+curl -I https://ziminikita.ru/robots.txt
+```
+
+Отправьте тестовую заявку через форму на сайте. Она должна прийти в Telegram и появиться в Google Sheets.
+
+Проверьте SSL-рейтинг:
+
+```text
+https://www.ssllabs.com/ssltest/analyze.html?d=ziminikita.ru
+```
+
+---
+
+## Шаг 13. Как обновлять сайт
+
+Когда вы внесёте изменения в Lovable, они автоматически синхронизируются в репозиторий GitHub. На сервере нужно будет только подтянуть обновления и пересобрать контейнер.
+
+Перейдите в папку проекта.
 
 ```bash
 cd /opt/zimin
+```
+
+Заберите свежий код из GitHub.
+
+```bash
 git pull
+```
+
+Пересоберите и перезапустите контейнер.
+
+```bash
 docker compose up -d --build
+```
+
+Удалите старые образы Docker, чтобы не занимать место.
+
+```bash
 docker image prune -f
 ```
 
-## 7. Резервное копирование
+---
 
-Стейт приложения хранится только в Google Sheets и Telegram — на самом VDS резервировать нечего, кроме `/etc/nginx/sites-available/ziminikita.ru` и `/etc/letsencrypt/`.
+## Резервное копирование
+
+Все заявки хранятся в Google Sheets, а уведомления идут в Telegram. На самом VDS нет важных данных, кроме:
+
+- конфигурации nginx: `/etc/nginx/sites-available/ziminikita.ru`
+- SSL-сертификатов: `/etc/letsencrypt/`
+
+Если сервер сломается, достаточно повторить эту инструкцию на новом VDS. Данные заявок не пропадут.
+
+---
+
+## Если что-то пошло не так
+
+- Проверьте логи Docker.
+
+```bash
+docker logs ziminikita-site
+```
+
+- Проверьте логи nginx.
+
+```bash
+journalctl -u nginx -n 50
+```
+
+- Проверьте, что контейнер запущен.
+
+```bash
+docker ps
+```
+
+- Проверьте, что приложение отвечает на порту 3000.
+
+```bash
+curl -I http://127.0.0.1:3000
+```
