@@ -10,26 +10,20 @@ import { submitLead } from "@/lib/submitLead.functions";
 import heroImg from "@/assets/zimin-hero.jpg";
 import stageGreenImg from "@/assets/zimin-stage-green.jpg";
 import neonImg from "@/assets/zimin-neon.jpg";
-import santaAsset from "@/assets/zimin-santa.jpg.asset.json";
-import santaKissAsset from "@/assets/zimin-santa-kiss.jpg.asset.json";
-import micStageAsset from "@/assets/zimin-mic-stage.jpg.asset.json";
-import costumeAsset from "@/assets/zimin-costume.jpg.asset.json";
-import pinkSuitAsset from "@/assets/zimin-pink-suit.jpg.asset.json";
-import tonalityAsset from "@/assets/nikita-tonality.jpg.asset.json";
-import formatsVideo from "@/assets/zimin-formats.mp4.asset.json";
 import formatsPoster from "@/assets/zimin-formats-poster.jpg";
-import aboutVideo from "@/assets/zimin-about.mp4.asset.json";
 import aboutPoster from "@/assets/zimin-about-poster.jpg";
-import millionVideo from "@/assets/zimin-million.mp4.asset.json";
 import millionPoster from "@/assets/zimin-million-poster.jpg";
 import qrCodeImg from "@/assets/qr-code.png";
 
-const santaImg = santaAsset.url;
-const santaKissImg = santaKissAsset.url;
-const micStageImg = micStageAsset.url;
-const costumeImg = costumeAsset.url;
-const pinkSuitImg = pinkSuitAsset.url;
-const tonalityImg = tonalityAsset.url;
+const santaImg = "/media/zimin-santa.jpg";
+const santaKissImg = "/media/zimin-santa-kiss.jpg";
+const micStageImg = "/media/zimin-mic-stage.jpg";
+const costumeImg = "/media/zimin-costume.jpg";
+const pinkSuitImg = "/media/zimin-pink-suit.jpg";
+const tonalityImg = "/media/nikita-tonality.jpg";
+const formatsVideoSrc = "/media/zimin-formats.mp4";
+const aboutVideoSrc = "/media/zimin-about.mp4";
+const millionVideoSrc = "/media/zimin-million.mp4";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -276,7 +270,7 @@ function MillionShowcase() {
         <figure className="group relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl bg-black">
           <video
             className="aspect-[9/16] size-full object-contain"
-            src={millionVideo.url}
+            src={millionVideoSrc}
             poster={millionPoster}
             autoPlay
             loop
@@ -362,7 +356,7 @@ function Formats() {
           <figure className="group relative h-full min-h-[26rem] overflow-hidden rounded-lg bg-secondary lg:min-h-[38rem]">
             <video
               className="size-full object-cover"
-              src={formatsVideo.url}
+              src={formatsVideoSrc}
               poster={formatsPoster}
               controls
               playsInline
@@ -531,7 +525,7 @@ function About() {
         <div className="relative min-h-[30rem] overflow-hidden bg-black md:min-h-[42rem]">
           <video
             className="size-full object-cover"
-            src={aboutVideo.url}
+            src={aboutVideoSrc}
             poster={aboutPoster}
             controls
             playsInline

@@ -10,6 +10,15 @@ RUN bun install --frozen-lockfile || bun install
 # VDS_BUILD=1 switches vite.config.ts to the node-server preset.
 # Docker build environment is not the Lovable sandbox, so the preset is respected.
 COPY . .
+
+# Download large media assets that are not tracked in git (>10MB).
+# These are baked into the image so runtime does not depend on any external CDN.
+RUN mkdir -p public/media && \
+    apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && \
+    curl -fsSL "https://nikita-vision-craft.lovable.app/__l5e/assets-v1/8741c1ce-5eb2-44de-8e30-e916db4abbc8/zimin-formats.mp4" -o public/media/zimin-formats.mp4 && \
+    curl -fsSL "https://nikita-vision-craft.lovable.app/__l5e/assets-v1/0a8b1689-d4a0-4bf7-9103-d83804cacd55/zimin-million.mp4" -o public/media/zimin-million.mp4 && \
+    rm -rf /var/lib/apt/lists/*
+
 ARG VITE_LEAD_ENDPOINT
 ENV VITE_LEAD_ENDPOINT=${VITE_LEAD_ENDPOINT}
 ENV VDS_BUILD=1
