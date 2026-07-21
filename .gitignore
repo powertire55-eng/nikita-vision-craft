@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Large media downloaded at Docker build (see Dockerfile)
+public/media/zimin-formats.mp4
+public/media/zimin-million.mp4
