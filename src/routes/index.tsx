@@ -270,7 +270,7 @@ function MillionShowcase() {
         <figure className="group relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl bg-black">
           <video
             className="aspect-[9/16] size-full object-contain"
-            src={millionVideo.url}
+            src={millionVideoSrc}
             poster={millionPoster}
             autoPlay
             loop
@@ -356,7 +356,7 @@ function Formats() {
           <figure className="group relative h-full min-h-[26rem] overflow-hidden rounded-lg bg-secondary lg:min-h-[38rem]">
             <video
               className="size-full object-cover"
-              src={formatsVideo.url}
+              src={formatsVideoSrc}
               poster={formatsPoster}
               controls
               playsInline
@@ -525,7 +525,7 @@ function About() {
         <div className="relative min-h-[30rem] overflow-hidden bg-black md:min-h-[42rem]">
           <video
             className="size-full object-cover"
-            src={aboutVideo.url}
+            src={aboutVideoSrc}
             poster={aboutPoster}
             controls
             playsInline
