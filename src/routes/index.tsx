@@ -436,25 +436,25 @@ function Range() {
               src={santaImg}
               alt="Никита Зимин на новогоднем празднике"
               loading="lazy"
-              className="aspect-square w-full rounded-lg bg-black object-contain"
+              className="aspect-square w-full rounded-lg object-cover"
             />
             <img
-              src={tonalityImg}
-              alt="Никита Зимин на сцене с микрофоном"
+              src={tentImg}
+              alt="Никита Зимин ведёт свадьбу в шатре"
               loading="lazy"
-              className="aspect-square w-full rounded-lg bg-black object-contain"
+              className="aspect-square w-full rounded-lg object-cover"
             />
             <img
-              src={pinkSuitImg}
-              alt="Никита Зимин в розовом костюме с микрофоном"
+              src={stageGreenImg}
+              alt="Никита Зимин в зелёном костюме с микрофоном"
               loading="lazy"
-              className="aspect-square w-full rounded-lg bg-black object-contain"
+              className="aspect-square w-full rounded-lg object-cover"
             />
             <img
-              src={santaKissImg}
-              alt="Никита Зимин на тематической вечеринке"
+              src={neon25Img}
+              alt="Никита Зимин на церемонии с неоновым декором"
               loading="lazy"
-              className="aspect-square w-full rounded-lg bg-black object-contain"
+              className="aspect-square w-full rounded-lg object-cover"
             />
           </div>
         </Reveal>
@@ -480,10 +480,10 @@ function Shows() {
         <Reveal>
           <figure className="group relative overflow-hidden rounded-2xl bg-secondary">
             <img
-              src={stageGreenImg}
-              alt="Никита Зимин ведёт шоу"
+              src={pinkSuitImg}
+              alt="Никита Зимин ведёт шоу в розовом костюме"
               loading="lazy"
-              className="w-full bg-black object-contain transition-transform duration-700 group-hover:scale-105"
+              className="w-full object-contain transition-transform duration-700 group-hover:scale-105"
             />
           </figure>
         </Reveal>
