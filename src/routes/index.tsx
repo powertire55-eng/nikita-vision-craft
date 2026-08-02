@@ -436,25 +436,25 @@ function Range() {
               src={santaImg}
               alt="Никита Зимин на новогоднем празднике"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-[3/4] w-full rounded-lg object-cover"
             />
             <img
               src={tentImg}
               alt="Никита Зимин ведёт свадьбу в шатре"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-[3/4] w-full rounded-lg object-cover"
             />
             <img
               src={stageGreenImg}
               alt="Никита Зимин в зелёном костюме с микрофоном"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-[3/4] w-full rounded-lg object-cover"
             />
             <img
               src={neon25Img}
               alt="Никита Зимин на церемонии с неоновым декором"
               loading="lazy"
-              className="aspect-square w-full rounded-lg object-cover"
+              className="aspect-[3/4] w-full rounded-lg object-cover"
             />
           </div>
         </Reveal>
