@@ -16,11 +16,9 @@ import millionPoster from "@/assets/zimin-million-poster.jpg";
 import qrCodeImg from "@/assets/qr-code.png";
 
 const santaImg = "/media/zimin-santa.jpg";
-const santaKissImg = "/media/zimin-santa-kiss.jpg";
 const micStageImg = "/media/zimin-mic-stage.jpg";
 const costumeImg = "/media/zimin-costume.jpg";
 const pinkSuitImg = "/media/zimin-pink-suit.jpg";
-const tonalityImg = "/media/nikita-tonality.jpg";
 const tentImg = "/media/zimin-tent.jpg";
 const neon25Img = "/media/zimin-neon25.jpg";
 const formatsVideoSrc = "/media/zimin-formats.mp4";
