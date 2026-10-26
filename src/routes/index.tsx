@@ -52,6 +52,7 @@ function Index() {
       <Marquee />
       <Formats />
       <Range />
+      <NewYearVideos />
       <Shows />
       <About />
       <Artists />
@@ -146,10 +147,9 @@ function Hero() {
         <img
           src={heroImg}
           alt="Никита Зимин — ведущий мероприятий"
-          className="size-full object-contain object-right"
+          className="size-full object-contain object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/40" />
       </div>
 
       <div className="relative mx-auto flex min-h-svh max-w-7xl flex-col justify-end px-5 pb-14 pt-28 md:px-8 md:pb-20">
@@ -438,24 +438,17 @@ function Range() {
               loading="lazy"
               className="aspect-[3/4] w-full rounded-lg object-cover"
             />
-            <img
-              src={tentImg}
-              alt="Никита Зимин ведёт свадьбу в шатре"
-              loading="lazy"
-              className="aspect-[3/4] w-full rounded-lg object-cover"
-            />
-            <img
-              src={stageGreenImg}
-              alt="Никита Зимин в зелёном костюме с микрофоном"
-              loading="lazy"
-              className="aspect-[3/4] w-full rounded-lg object-cover"
-            />
-            <img
-              src={neon25Img}
-              alt="Никита Зимин на церемонии с неоновым декором"
-              loading="lazy"
-              className="aspect-[3/4] w-full rounded-lg object-cover"
-            />
+            {["/media/zimin-range-1.jpg", "/media/zimin-range-2.jpg", "/media/zimin-range-3.jpg"].map(
+              (src) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="Никита Зимин ведёт мероприятие"
+                  loading="lazy"
+                  className="aspect-[3/4] w-full rounded-lg object-cover"
+                />
+              ),
+            )}
           </div>
         </Reveal>
       </div>
@@ -892,5 +885,43 @@ function Footer() {
         <span>Ведущий свадеб, корпоративов и мероприятий в Москве с выездом по всей России</span>
       </div>
     </footer>
+  );
+}
+
+function NewYearVideos() {
+  const items = [
+    { src: "/media/zimin-newyear.mp4", poster: "/media/zimin-newyear-poster.jpg", label: "Новый год" },
+    { src: "/media/zimin-live.mp4", poster: "/media/zimin-live-poster.jpg", label: "В деле" },
+  ];
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal>
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+          Скоро Новый год
+        </p>
+        <h2 className="display-xl max-w-4xl text-[clamp(2.2rem,6vw,5rem)]">
+          Праздник, который <span className="text-primary">хочется повторить</span>
+        </h2>
+      </Reveal>
+      <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-2">
+        {items.map((v, i) => (
+          <Reveal key={v.src} delay={i * 0.1}>
+            <figure className="overflow-hidden rounded-2xl bg-secondary">
+              <video
+                className="aspect-[9/16] w-full object-contain"
+                src={v.src}
+                poster={v.poster}
+                controls
+                playsInline
+                preload="metadata"
+              />
+              <figcaption className="px-5 py-4 font-display text-sm font-semibold uppercase tracking-widest">
+                {v.label}
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </section>
   );
 }
