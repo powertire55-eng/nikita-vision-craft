@@ -887,3 +887,41 @@ function Footer() {
     </footer>
   );
 }
+
+function NewYearVideos() {
+  const items = [
+    { src: "/media/zimin-newyear.mp4", poster: "/media/zimin-newyear-poster.jpg", label: "Новый год" },
+    { src: "/media/zimin-live.mp4", poster: "/media/zimin-live-poster.jpg", label: "В деле" },
+  ];
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal>
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+          Скоро Новый год
+        </p>
+        <h2 className="display-xl max-w-4xl text-[clamp(2.2rem,6vw,5rem)]">
+          Праздник, который <span className="text-primary">хочется повторить</span>
+        </h2>
+      </Reveal>
+      <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-2">
+        {items.map((v, i) => (
+          <Reveal key={v.src} delay={i * 0.1}>
+            <figure className="overflow-hidden rounded-2xl bg-secondary">
+              <video
+                className="aspect-[9/16] w-full object-contain"
+                src={v.src}
+                poster={v.poster}
+                controls
+                playsInline
+                preload="metadata"
+              />
+              <figcaption className="px-5 py-4 font-display text-sm font-semibold uppercase tracking-widest">
+                {v.label}
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
