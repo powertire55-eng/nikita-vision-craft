@@ -50,9 +50,9 @@ function Index() {
       <Hero />
       <MillionShowcase />
       <Marquee />
+      <NewYearSection />
       <Formats />
       <Range />
-      <NewYearSection />
       <Shows />
       <LiveSection />
 
@@ -904,8 +904,6 @@ const SNOW = [
 ];
 
 function NewYearSection() {
-  const [muted, setMuted] = useState(true);
-
   return (
     <section
       id="newyear"
@@ -957,18 +955,11 @@ function NewYearSection() {
               poster="/media/zimin-newyear-poster.jpg"
               autoPlay
               loop
-              muted={muted}
+              muted
               playsInline
               preload="metadata"
+              controls
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-            <button
-              onClick={() => setMuted((m) => !m)}
-              aria-label={muted ? "Включить звук" : "Выключить звук"}
-              className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-colors hover:bg-background/80"
-            >
-              {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
-            </button>
           </figure>
         </Reveal>
       </div>
