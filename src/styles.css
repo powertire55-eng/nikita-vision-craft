@@ -154,3 +154,26 @@
 @utility animate-marquee {
   animation: marquee 26s linear infinite;
 }
+
+/* Falling snow decoration for the New Year section */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-2rem) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(34rem) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+@utility animate-snow {
+  animation: snowfall linear infinite;
+}
+

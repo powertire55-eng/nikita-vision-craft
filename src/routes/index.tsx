@@ -52,8 +52,10 @@ function Index() {
       <Marquee />
       <Formats />
       <Range />
-      <NewYearVideos />
+      <NewYearSection />
       <Shows />
+      <LiveSection />
+
       <About />
       <Artists />
       <Contact />
@@ -888,40 +890,124 @@ function Footer() {
   );
 }
 
-function NewYearVideos() {
-  const items = [
-    { src: "/media/zimin-newyear.mp4", poster: "/media/zimin-newyear-poster.jpg", label: "Новый год" },
-    { src: "/media/zimin-live.mp4", poster: "/media/zimin-live-poster.jpg", label: "В деле" },
-  ];
+const SNOW = [
+  { left: "4%", size: "1rem", dur: "13s", delay: "0s" },
+  { left: "14%", size: "1.6rem", dur: "18s", delay: "2.5s" },
+  { left: "23%", size: "0.8rem", dur: "11s", delay: "5s" },
+  { left: "34%", size: "1.3rem", dur: "16s", delay: "1s" },
+  { left: "45%", size: "1rem", dur: "14s", delay: "7s" },
+  { left: "56%", size: "1.8rem", dur: "20s", delay: "3.5s" },
+  { left: "66%", size: "0.9rem", dur: "12s", delay: "6s" },
+  { left: "75%", size: "1.4rem", dur: "17s", delay: "0.8s" },
+  { left: "85%", size: "1.1rem", dur: "15s", delay: "4.2s" },
+  { left: "94%", size: "1.7rem", dur: "19s", delay: "8s" },
+];
+
+function NewYearSection() {
+  const [muted, setMuted] = useState(true);
+
   return (
-    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
-      <Reveal>
-        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-          Скоро Новый год
-        </p>
-        <h2 className="display-xl max-w-4xl text-[clamp(2.2rem,6vw,5rem)]">
-          Праздник, который <span className="text-primary">хочется повторить</span>
-        </h2>
-      </Reveal>
-      <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-2">
-        {items.map((v, i) => (
-          <Reveal key={v.src} delay={i * 0.1}>
-            <figure className="overflow-hidden rounded-2xl bg-secondary">
-              <video
-                className="aspect-[9/16] w-full object-contain"
-                src={v.src}
-                poster={v.poster}
-                controls
-                playsInline
-                preload="metadata"
-              />
-              <figcaption className="px-5 py-4 font-display text-sm font-semibold uppercase tracking-widest">
-                {v.label}
-              </figcaption>
-            </figure>
-          </Reveal>
+    <section
+      id="newyear"
+      className="relative overflow-hidden border-y border-border bg-secondary/40 py-24 md:py-32"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {SNOW.map((s, i) => (
+          <span
+            key={i}
+            className="animate-snow absolute top-0 select-none text-primary/45"
+            style={{
+              left: s.left,
+              fontSize: s.size,
+              animationDuration: s.dur,
+              animationDelay: s.delay,
+            }}
+          >
+            ❄
+          </span>
         ))}
+      </div>
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:gap-16 md:px-8">
+        <Reveal>
+          <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-block h-px w-10 bg-primary" />
+            Новогодние события
+          </p>
+          <h2 className="display-xl text-[clamp(2.4rem,7vw,5.5rem)]">
+            Скоро Новый <span className="text-primary">год</span>
+          </h2>
+          <p className="mt-6 max-w-md text-lg text-muted-foreground">
+            Корпоративы, домашние вечера и праздники для детей — отдельная история, где важна не
+            программа, а то самое ощущение праздника.
+          </p>
+          <a
+            href="#contact"
+            className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
+          >
+            Обсудить детали
+          </a>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <figure className="relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl bg-background">
+            <video
+              className="aspect-[9/16] size-full object-contain"
+              src="/media/zimin-newyear.mp4"
+              poster="/media/zimin-newyear-poster.jpg"
+              autoPlay
+              loop
+              muted={muted}
+              playsInline
+              preload="metadata"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            <button
+              onClick={() => setMuted((m) => !m)}
+              aria-label={muted ? "Включить звук" : "Выключить звук"}
+              className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-colors hover:bg-background/80"
+            >
+              {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+            </button>
+          </figure>
+        </Reveal>
       </div>
     </section>
   );
 }
+
+function LiveSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="inline-block h-px w-10 bg-primary" />
+              В деле
+            </p>
+            <h2 className="display-xl text-[clamp(2rem,5vw,3.5rem)]">
+              Без пауз и <span className="text-primary">монтажа</span>
+            </h2>
+          </div>
+          <p className="max-w-sm pb-2 text-base text-muted-foreground">
+            Как это выглядит вживую: темп, работа с залом и переходы между блоками вечера.
+          </p>
+        </div>
+      </Reveal>
+      <Reveal delay={0.05}>
+        <figure className="mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl bg-secondary">
+          <video
+            className="aspect-[9/16] w-full object-contain"
+            src="/media/zimin-live.mp4"
+            poster="/media/zimin-live-poster.jpg"
+            controls
+            playsInline
+            preload="metadata"
+          />
+        </figure>
+      </Reveal>
+    </section>
+  );
+}
+
