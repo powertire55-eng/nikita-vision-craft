@@ -52,6 +52,7 @@ function Index() {
       <Marquee />
       <Formats />
       <Range />
+      <NewYearVideos />
       <Shows />
       <About />
       <Artists />
