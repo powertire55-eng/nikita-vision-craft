@@ -149,9 +149,9 @@ function Hero() {
         <img
           src={heroImg}
           alt="Никита Зимин — ведущий мероприятий"
-          className="size-full object-contain object-center"
+          className="size-full object-contain object-[50%_0%] md:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background from-40% via-background/70 to-background/45 md:from-20% md:via-background/30 md:to-background/40" />
       </div>
 
       <div className="relative mx-auto flex min-h-svh max-w-7xl flex-col justify-end px-5 pb-14 pt-28 md:px-8 md:pb-20">
@@ -191,7 +191,7 @@ function Hero() {
           className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4"
         >
           <div className="flex items-center gap-6 text-sm font-medium uppercase tracking-widest text-muted-foreground">
-            <span>31 год</span>
+            <span>32 года</span>
             <span className="h-4 w-px bg-border" />
             <span>182 см</span>
           </div>
